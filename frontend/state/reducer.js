@@ -21,10 +21,14 @@ const initialQuizState = null
 function quiz(state = initialQuizState, action) {
   switch(action.type){
     case types.SET_QUIZ_INTO_STATE:
+      const rand1 = Math.round(Math.random());
+      const rand2 = 1 - rand1;
       return {
         quiz_id: action.payload["quiz_id"],
         question: action.payload.question,
-        answers: action.payload.answers
+        answers: action.payload.answers,
+        rand1,
+        rand2
       }
     
     case types.RESET_QUIZ:

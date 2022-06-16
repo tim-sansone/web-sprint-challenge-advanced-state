@@ -58,9 +58,18 @@ function infoMessage(state = initialMessageState, action) {
 const initialFormState = {
   newQuestion: '',
   newTrueAnswer: '',
-  newFalseAnswer: '',
+  newFalseAnswer: ''
 }
 function form(state = initialFormState, action) {
+  switch(action.type){
+    case types.INPUT_CHANGE:
+      return {
+        ...state,
+        [action.payload.name]: action.payload.value
+      }
+    case types.RESET_FORM:
+      return initialFormState;
+  }
   return state
 }
 

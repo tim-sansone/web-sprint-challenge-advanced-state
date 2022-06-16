@@ -7,9 +7,8 @@ function Quiz(props) {
 
   const { quiz, selectedAnswer } = props;
 
-  useEffect(() => {
-    props.fetchQuiz()
-  }, [])
+  !quiz && props.fetchQuiz()
+
 
   // const pos1 = Math.round(Math.random());
   // const pos2 = 1 - pos1;

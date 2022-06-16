@@ -10,11 +10,20 @@ export function selectAnswer(id) { return { type: types.SET_SELECTED_ANSWER, pay
 
 export function setMessage(message) { return { type: types.SET_INFO_MESSAGE, payload: message } }
 
-export function setQuiz() { }
+// export function setQuiz() { }
 
-export function inputChange() { }
+export function inputChange(name, value, disabled) {
+  return {
+    type: types.INPUT_CHANGE,
+    payload: {
+      name,
+      value,
+      disabled
+    }
+  }
+ }
 
-export function resetForm() { }
+export function resetForm() { return { type: types.RESET_FORM } }
 
 // ❗ Async action creators
 export function fetchQuiz() {
@@ -40,7 +49,7 @@ export function postAnswer(payload) {
     // - Dispatch the fetching of the next quiz
     axios.post("http://localhost:9000/api/quiz/answer", payload)
       .then(res => {
-        dispatch({ type: types.RESET_QUIZ})
+        dispatch({ type: types.RESET_QUIZ })
         dispatch({ type: types.SET_INFO_MESSAGE, payload: res.data.message })
       })
       .catch(err => {
@@ -57,11 +66,20 @@ export function postAnswer(payload) {
       })
   }
 }
-export function postQuiz() {
+export function postQuiz(payload) {
   return function (dispatch) {
     // On successful POST:
     // - Dispatch the correct message to the the appropriate state
     // - Dispatch the resetting of the form
+    axios.post("http://localhost:9000/api/quiz/new", payload)
+      .then(res => {
+        const congrats = `Congrats: "${res.data.question}" is a great question!`
+        dispatch({ type: types.SET_INFO_MESSAGE, payload: congrats })
+        dispatch({ type: types.RESET_FORM })
+      })
+      .catch(err => {
+        debugger
+      })
   }
 }
 // ❗ On promise rejections, use log statements or breakpoints, and put an appropriate error message in state
